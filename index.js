@@ -1,9 +1,15 @@
-const axios = require("axios");
+import axios from "axios";
+import utils from "./lib/utils";
+
+const api_gateway = "https://ql1eg57p67.execute-api.us-east-1.amazonaws.com";
+const authorize_route = `${api_gateway}/default/pax-user-authorize`;
 
 exports.handler = async (event) => {
   try {
-    // Example of making a GET request with Axios
-    const response = await axios.get("https://api.example.com/data");
+    const queryParams = event.queryStringParameters;
+    const response = await axios.get(
+      `${authorize_route}?${utils.toParamsURI(queryParams)}`
+    );
 
     // Return the successful response
     return {

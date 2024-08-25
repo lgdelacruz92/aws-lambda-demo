@@ -1,16 +1,17 @@
 import axios from "axios";
 import utils from "./lib/utils.mjs";
 
-const api_gateway = "https://ql1eg57p67.execute-api.us-east-1.amazonaws.com";
-const authorize_route = `${api_gateway}/default/pax-user-authorize`;
+const api_gateway = "https://pax-buyers.auth.us-east-1.amazoncognito.com";
+const authorize_route = `${api_gateway}/oauth2/authorize`;
 
 export const handler = async (event) => {
   try {
     const queryParams = event.queryStringParameters;
-    const response = await axios.get(
+    const url = encodeURI(
       `${authorize_route}?${utils.toParamsURI(queryParams)}`
     );
 
+    const response = await axios.get(url);
     // Return the successful response
     return {
       statusCode: 200,
